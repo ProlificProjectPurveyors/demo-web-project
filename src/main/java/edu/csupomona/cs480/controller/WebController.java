@@ -1,7 +1,12 @@
 package edu.csupomona.cs480.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +65,32 @@ public class WebController {
 	String introCheck() {
 		// You can replace this with other string,
 		// and run the application locally to check your changes
-		// with the URL: http://localhost:8080/
+		// with the URL: http://localhost:8080/cs480/introTest
+		
+		//print all hyperlinks to console
+		Document doc;
+        try {
+
+            // need http protocol
+            doc = Jsoup.connect("http://yahoo.com").get();
+
+            // get page title
+            String title = doc.title();
+            System.out.println("title : " + title);
+
+            // get all links
+            Elements links = doc.select("a[href]");
+            for (Element link : links) {
+
+                // get the value from href attribute
+                System.out.println("\nlink : " + link.attr("href"));
+                System.out.println("text : " + link.text());
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		return "It works! I am somewhat sane!";
 	}
 
