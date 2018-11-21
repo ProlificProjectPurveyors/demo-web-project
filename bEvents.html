@@ -8,6 +8,16 @@
 <meta http-equiv ="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<script src="jquery-3.3.1.min.js"></script>
+<script src="jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#mainTable').DataTable( {
+        "order": [[ 3, "desc" ]]
+    } );
+} );
+</script>
 	<style>
 #header {color:black; background-color: black; border: 1px solid grey}
 .picture {color: black; background-color: black; border: 5px solid grey}
@@ -133,7 +143,7 @@ float: left;
 			<!--<div id="narrow"><div class="picture"> SOME COOL LOGO OR SOMETHING GOES HERE </div></div> -->
 			<div id="wide"><img src="https://oneclassblog.com/wp-content/uploads/2018/09/2015_CalPolyPomona_0003_05.jpg" alt="CPP">
 		
-					<table class="table table-striped table-dark">
+					<table id ="mainTable" table class="table table-striped table-dark">
 					  <thead>
 						<tr>
 						  <th scope="col">Room#</th>
@@ -177,8 +187,10 @@ float: left;
 		<div id = "footer"> Footer: stuff info or something here maybe: WIP</div>
 	</div>
 	
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
+
+
