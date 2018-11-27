@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Scanner;
+
 import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -41,8 +44,8 @@ public class EmailSearch {
 	 * 
 	 * @param pop3Host  creates a temporary inbox. use: pop.gmail.com
 	 * @param storeType use: pop3
-	 * @param user      our group email
-	 * @param password  our group email password
+	 * @param user      use: our group email
+	 * @param password  use: our group email password
 	 * @param file      the file we print the information we get to.
 	 */
 	public static void fetch(String pop3Host, String storeType, String user, String password, File file)
@@ -78,7 +81,7 @@ public class EmailSearch {
 
 			for (int i = 0; i < messages.length; i++) {
 				Message message = messages[i];
-				// keep a space between lines
+				// keep a space between lines for later read purposes.
 				printWriter.println();
 				writePart(message, file);
 				String line = reader.readLine();
@@ -89,7 +92,7 @@ public class EmailSearch {
 				}
 			}
 
-			// close the store and folder objects
+			// close remaining objects
 			emailFolder.close(false);
 			store.close();
 			printWriter.close();
@@ -115,6 +118,65 @@ public class EmailSearch {
 		FileWriter fileWriter = new FileWriter(file, true);
 		BufferedWriter buffer = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(buffer);
+
+		// write to temp file so we can scan the whole thing for the time and location.
+		File tempFile = new File("tempFile.txt");
+		FileWriter fw = new FileWriter(tempFile);
+		BufferedWriter bw = new BufferedWriter(fw);
+		PrintWriter pw = new PrintWriter(bw);
+		//writes the entire message to the temp file.
+		pw.print((String) p.getContent());
+
+		// scan for date
+		Scanner in = null;
+		boolean found = false;
+		try {
+			in = new Scanner(tempFile);
+			while (in.hasNext() && !found) {
+				String line = in.nextLine();
+				if (line.contains("Date")) {
+					printWriter.println(line);
+					found = true;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Scan for location
+		in = null;
+		try {
+			in = new Scanner(tempFile);
+			while (in.hasNext()) {
+				String line = in.nextLine();
+				if (line.contains("Location")) {
+					printWriter.println(line);
+					found = true;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// find time
+		in = null;
+		try {
+			in = new Scanner(tempFile);
+			while (in.hasNext()) {
+				String line = in.nextLine();
+				if (line.contains("Time")) {
+					printWriter.println(line);
+					found = true;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pw.close();
+		printWriter.close();
 	}
 
 	public static void writeEnvelope(Message m, File file) throws Exception {
@@ -133,6 +195,8 @@ public class EmailSearch {
 		if (m.getSubject() != null) {
 			printWriter.println("SUBJECT: " + m.getSubject());
 		}
+
+		printWriter.close();
 	}
 
 	/**
