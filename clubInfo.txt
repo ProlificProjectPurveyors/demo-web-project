@@ -1,2 +1,2 @@
-"BSC","Kappa","9/17"
+"BSC","Kappa","9/17",
 "BRIC","cool Klub","2/20"
