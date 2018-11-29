@@ -25,8 +25,8 @@ var loopCounter = 0;
 $.get( "clubInfo.txt", function( data ) {
         //alert(textFile.result[1]+ textFile.result[2] + textFile.result[3]);
 		//roomNumber.appendChild(textFile.result[i]);
-		//while(reader.AtEndOfStream)
-		//{
+		while(i+2< data.length)
+		{
 		var myLoc = data[i];
 		//alert(myLoc);
 		while(data[i+1] !== "\"")
@@ -64,11 +64,19 @@ $.get( "clubInfo.txt", function( data ) {
 		
 		var theDate2= document.createTextNode(theDate);
 		date.appendChild(theDate2);
+		i = i+6;
+
+
+		newRow   = tableRef.insertRow(tableRef.rows.length);
+		roomNumber = newRow.insertCell(0);
+		clubName  = newRow.insertCell(1);
+		date = newRow.insertCell(2);
+		loopCounter++;
 		//date = newRow.insertCell(j+2);
 		
 		//console.log(textFile.result[i]+textFile.result[i+1]);
 		//console.log(i);
 		//console.log("End of file is " + textFile.result[45]);
 		
-		//}
+		}
 });
